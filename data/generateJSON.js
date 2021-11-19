@@ -2,7 +2,7 @@ const fs = require('fs');
 
 let communityDistricts= [];
 
-let cd_csv = fs.readFileSync('data/TreeAirQuality.csv', 'utf8');
+let cd_csv = fs.readFileSync('TreeAirQuality.csv', 'utf8');
 let cd = cd_csv.split("\n");
 
 cd.forEach(function(data) {
@@ -16,4 +16,4 @@ cd.forEach(function(data) {
   communityDistricts.push(districts);
 });
 
-fs.writeFileSync('data/CDdata.json', JSON.stringify(communityDistricts), 'utf8');
+fs.writeFileSync('CDdata.json', JSON.stringify(communityDistricts), 'utf8');
