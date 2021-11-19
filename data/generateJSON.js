@@ -8,10 +8,10 @@ let cd = cd_csv.split("\n");
 cd.forEach(function(data) {
   let district_info = data.split(',');
   let districts = {};
-  districts['CDID'] = district_info[0];
-  districts['neigborhood_name'] = district_info[1];
-  districts['air_quality'] = district_info[2];
-  districts['treeCount'] = district_info[3];
+  districts['CDID'] = district_info[1];
+  districts['neigborhood_name'] = district_info[2];
+  districts['air_quality'] = district_info[3];
+  districts['treeCount'] = district_info[4];
 
   communityDistricts.push(districts);
 });
