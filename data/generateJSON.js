@@ -1,26 +1,20 @@
 const fs = require('fs');
 
-let characters = [];
+let communityDistricts= [];
 
-let peeps_csv = fs.readFileSync('data/Characters.csv', 'utf8');
+let data_csv = fs.readFileSync('data/TreeAirQuality.csv', 'utf8');
 
-let peeps = peeps_csv.split("\n");
+let data = data_csv.split("\n");
 
-peeps.forEach(function(peep) {
-  let character_info = peep.split(';');
-  let character = {};
-  character['name'] = character_info[1];
-  character['gender'] = character_info[2];
-  character['house'] = character_info[4];
-  character['species'] = character_info[7];
+peeps.forEach(function(data) {
+  let district_info = data.split(',');
+  let districts = {};
+  character['CDID'] = character_info[0];
+  character['neigborhood_name'] = character_info[1];
+  character['air_quality'] = character_info[2];
+  character['treeCount'] = character_info[3];
 
-  if (character_info[12])
-    character['skills'] = character_info[12].split('|');
-  else {
-    character['skills'] = [];
-  }
-
-  characters.push(character);
+  communityDistricts.push(character);
 });
 
-fs.writeFileSync('data/potter.json', JSON.stringify(characters), 'utf8');
+fs.writeFileSync('data/potter.json', JSON.stringify(communityDistricts), 'utf8');
