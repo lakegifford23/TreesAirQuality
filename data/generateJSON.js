@@ -9,12 +9,12 @@ let data = data_csv.split("\n");
 peeps.forEach(function(data) {
   let district_info = data.split(',');
   let districts = {};
-  character['CDID'] = character_info[0];
-  character['neigborhood_name'] = character_info[1];
-  character['air_quality'] = character_info[2];
-  character['treeCount'] = character_info[3];
+  communityDistricts['CDID'] = communityDistricts[0];
+  communityDistricts['neigborhood_name'] = communityDistricts[1];
+  communityDistricts['air_quality'] = communityDistricts[2];
+  communityDistricts['treeCount'] = communityDistricts[3];
 
-  communityDistricts.push(character);
+  communityDistricts.push(communityDistricts);
 });
 
 fs.writeFileSync('data/potter.json', JSON.stringify(communityDistricts), 'utf8');
