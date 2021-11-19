@@ -9,10 +9,10 @@ let data = data_csv.split("\n");
 peeps.forEach(function(data) {
   let district_info = data.split(',');
   let districts = {};
-  communityDistricts['CDID'] = communityDistricts[0];
-  communityDistricts['neigborhood_name'] = communityDistricts[1];
-  communityDistricts['air_quality'] = communityDistricts[2];
-  communityDistricts['treeCount'] = communityDistricts[3];
+  communityDistricts['CDID'] = communityDistricts_info[0];
+  communityDistricts['neigborhood_name'] = communityDistricts_info[1];
+  communityDistricts['air_quality'] = communityDistricts_info[2];
+  communityDistricts['treeCount'] = communityDistricts_info[3];
 
   communityDistricts.push(districts);
 });
