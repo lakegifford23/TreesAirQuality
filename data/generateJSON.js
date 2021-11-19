@@ -14,7 +14,7 @@ peeps.forEach(function(data) {
   communityDistricts['air_quality'] = communityDistricts[2];
   communityDistricts['treeCount'] = communityDistricts[3];
 
-  communityDistricts.push(communityDistricts);
+  communityDistricts.push(districts);
 });
 
 fs.writeFileSync('data/potter.json', JSON.stringify(communityDistricts), 'utf8');
