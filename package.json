@@ -5,7 +5,7 @@
   },
   "scripts": {
     "prebuild": "node util/prebuild.js ",
-    "build": " ",
+    "build": "node util/build.js",
     "postbuild": "node src/siteGenerator.js && open http://localhost:3000",
     "deploy": "npm run publish && npm run production:start",
     "publish": " ",
