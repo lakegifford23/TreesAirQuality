@@ -1,12 +1,13 @@
 {
   "dependencies": {
     "ejs": "^3.1.6",
+    "express": "^4.17.1",
     "fs": "^0.0.1-security"
   },
   "scripts": {
     "prebuild": "node util/prebuild.js ",
     "build": "node util/build.js",
-    "postbuild": "node src/siteGenerator.js && open http://localhost:3000",
+    "postbuild": "node src/siteGenerator.js && node server.js && open http://localhost:3000",
     "deploy": "npm run publish && npm run production:start",
     "publish": " ",
     "production:start": " "
