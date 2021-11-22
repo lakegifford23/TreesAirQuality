@@ -1,9 +1,6 @@
 {
   "dependencies": {
-<<<<<<< HEAD
     "ejs": "^3.1.6",
-    "fs-extra": "^10.0.0",
-    "rimraf": "^3.0.2"
   },
   "scripts": {
     "prebuild": " ",
@@ -12,8 +9,5 @@
     "deploy": "npm run publish && npm run production:start",
     "publish": " ",
     "production:start": " "
-=======
-    "ejs": "^3.1.6"
->>>>>>> parent of 8ac2689 (edits to package.json)
   }
 }
