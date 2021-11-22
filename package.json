@@ -1,5 +1,14 @@
 {
   "dependencies": {
     "ejs": "^3.1.6"
+  },
+  "scripts": {
+    "prebuild": "rimraf build",
+    "build": " ",
+    "postbuild": "node server.js && open http://localhost:3000",
+    "deploy": "npm run publish && npm run production:start",
+    "publish": " ",
+    "production:start": " "
   }
+
 }
