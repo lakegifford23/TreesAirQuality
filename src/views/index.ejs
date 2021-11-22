@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Harry Potter Characters</title>
+  <meta name="author" content="You">
+  <meta name="description" content="A compendium of Harry Potter characters">
+  <meta content="text/html" http-equiv="Content-type" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+</head>
+
+<body>
+  <header>
+    <h1>Harry Potter Characters</h1>
+  </header>
+  <section id="charcter-table">
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>House</th>
+        <th>Species</th>
+        <th>Skill</th>
+      </tr>
+      <% for(let i=1; i<data.length; i++){ %>
+      <tr>
+        <td><%= data[i].name %></td>
+        <td><%= data[i].gender %></td>
+        <td><%= data[i].house %></td>
+        <td><%= data[i].species %></td>
+        <td>
+          <% if (data[i].skills.length > 0){ %>
+          <ol>
+            <% data[i].skills.forEach(function(val){%>
+            <li> <%=val%></li>
+            <%}) %>
+          </ol>
+          <%}%>
+        </td>
+      </tr>
+      <%}%>
+    </table>
+  </section>
+
+  <%- include ('global/footer');  %>
+
+</body>
+
+</html>
