@@ -23,27 +23,13 @@
         <th>Species</th>
         <th>Skill</th>
       </tr>
-      <% for(let i=1; i<data.length; i++){ %>
       <tr>
-        <td><%= data[i].name %></td>
-        <td><%= data[i].gender %></td>
-        <td><%= data[i].house %></td>
-        <td><%= data[i].species %></td>
-        <td>
-          <% if (data[i].skills.length > 0){ %>
-          <ol>
-            <% data[i].skills.forEach(function(val){%>
-            <li> <%=val%></li>
-            <%}) %>
-          </ol>
-          <%}%>
-        </td>
+        <td><%= data[1].CDID %></td>
+
       </tr>
-      <%}%>
     </table>
   </section>
 
-  <%- include ('global/footer');  %>
 
 </body>
 
