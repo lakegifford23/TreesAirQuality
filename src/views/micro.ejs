@@ -17,8 +17,21 @@
 </head>
 
 <body>
+  <table>
+  <tr>
+    <th>Community District</th>
+    <th>Neighborhood</th>
+    <th>Air Quality</th>
+    <th>Tree Count</th>
+  </tr>
+  <tr>
+    <td><%= data[1].CDID %></td>
+    <td><%= data[2].CDID %></td>
+    <td><%= data[3].CDID %></td>
+    <td><%= data[4].CDID %></td>
+  </tr>
+</table>
 
-  <!-- <%= data[1].CDID %> -->
   <%- include ('global/header');  %>
   <%- include ('global/navbar');  %>
   <%- include ('global/footer');  %>
