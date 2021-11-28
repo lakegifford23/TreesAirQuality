@@ -12,6 +12,11 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="about.html">About</a>
         </li>
+          <% for(let i=1; i<data.length; i++){ %>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="micro<%= data[i].CDID%>.html"><%= data[i].CDID%></a>
+            </li>
+            <%}%>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
             micro summaries
