@@ -10,21 +10,18 @@
           <a class="nav-link active" aria-current="page" href="index.html">Home</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="about.html">About</a>
           <a class="nav-link" href="about.html">About</a>
-        </li>
-<<<<<<< HEAD
-          <% for(let i=1; i<data.length; i++){ %>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="micro<%=data[i].CDID%>.html"><%= data[i].neigborhood_name%></a>
-        </li>
-        <%}%>
-=======
->>>>>>> parent of ba9cd80 (got the micro pages to work!!)
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             micro summaries
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <% for(let i=1; i<data.length; i++){ %>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="micro<%=data[i].CDID%>.html"><%= data[i].neigborhood_name%></a>
+              </li>
+              <%}%>
               <li><hr class="dropdown-divider"></li>
           </ul>
         </li>
