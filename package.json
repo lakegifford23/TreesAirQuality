@@ -8,8 +8,11 @@
     "prebuild": "node util/prebuild.js ",
     "build": "node util/build.js",
     "postbuild": "node src/siteGenerator.js && node server.js && open http://localhost:3000",
-    "deploy": "npm run publish && npm run production:start",
+    "deploy": "node util/githubRun.js",
     "publish": " ",
     "production:start": " "
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
