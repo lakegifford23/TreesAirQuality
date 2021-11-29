@@ -5,7 +5,12 @@ let character_info = fs.readFileSync('data/CDdata.json', 'utf8');
 let index_template = fs.readFileSync('src/views/index.ejs', 'utf8');
 let micro1 = fs.readFileSync('src/views/micro.ejs', 'utf8');
 let about_template = fs.readFileSync('src/views/about.ejs', 'utf8');
+let data = JSON.parse(character_info);
+let communityDistricts = [];
 
+for(let i in data){
+  communityDistricts[i-1] = data[i].CDID;
+}
 
 
 let index_html = ejs.render(index_template, {
