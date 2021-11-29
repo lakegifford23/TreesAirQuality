@@ -1,3 +1,8 @@
+const fs = require('fs');
+const ejs = require('ejs');
+
+
+let character_info = fs.readFileSync('data/CDdata.json', 'utf8');
 let index_template = fs.readFileSync('src/views/index.ejs', 'utf8');
 let micro1 = fs.readFileSync('src/views/micro.ejs', 'utf8');
 let about_template = fs.readFileSync('src/views/about.ejs', 'utf8');
@@ -10,6 +15,7 @@ for(let i in data){
 
 
 let index_html = ejs.render(index_template, {
+  filename: __dirname + '/views/index.ejs',
  data: JSON.parse(character_info)
 });
 
@@ -25,6 +31,7 @@ fs.writeFileSync('build/micro' + communityDistricts[i]+ '.html', micro_html, 'ut
 
 let about_html = ejs.render(about_template, {
  filename: __dirname + '/views/about.ejs',
+ data: JSON.parse(character_info)
 });
 
 fs.writeFileSync('build/index.html', index_html, 'utf8');
