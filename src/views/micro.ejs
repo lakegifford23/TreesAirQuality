@@ -21,16 +21,16 @@
   <%- include ('global/navbar');  %>
   <table>
   <tr>
-    <th>Community District</th><br>
+    <th>Community District</th>
     <th>Neighborhood</th>
     <th>Air Quality</th>
     <th>Tree Count</th>
   </tr>
   <tr>
-    <td><%= data.CDID %></td>
-    <td><%= data.neigborhood_name %></td>
-    <td><%= data.air_quality %></td>
-    <td><%= data.treeCount %></td>
+    <td><%= data[1].CDID %></td>
+    <td><%= data[1].neigborhood_name %></td>
+    <td><%= data[1].air_quality %></td>
+    <td><%= data[1].treeCount %></td>
   </tr>
 </table>
 
