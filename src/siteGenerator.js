@@ -24,7 +24,7 @@ let micro_html;
 for(let i = 0; i < communityDistricts.length; i++){
 micro_html = ejs.render(micro1, {
  filename: __dirname + '/views/micro.ejs',
- data: data[i+1]
+data: JSON.parse(character_info)
 });
 fs.writeFileSync('docs/micro' + communityDistricts[i]+ '.html', micro_html, 'utf8');
 }
