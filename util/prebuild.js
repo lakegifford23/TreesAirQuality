@@ -1,3 +1,3 @@
 const fs = require('fs');
 
-fs.rmSync('build', { recursive: true, force: true });
+fs.rmSync('docs', { recursive: true, force: true });

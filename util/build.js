@@ -1,3 +1,3 @@
 const fs = require('fs');
 
-fs.mkdirSync('build');
+fs.mkdirSync('docs');

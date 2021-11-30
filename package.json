@@ -10,7 +10,7 @@
     "postbuild": "node src/siteGenerator.js && node server.js && open http://localhost:3000",
     "deploy": "node util/githubRun.js",
     "publish": " ",
-    "production:start": " "
+    "production:start": "open treesairquality.github.io"
   },
   "devDependencies": {
     "gh-pages": "^3.2.3"
