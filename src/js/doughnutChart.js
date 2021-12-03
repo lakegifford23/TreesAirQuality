@@ -1,8 +1,8 @@
-import d3 from 'd3';
+//import d3 from 'd3';
 // Copyright 2021 Observable, Inc.
 // Released under the ISC license.
 // https://observablehq.com/@d3/donut-chart
-console.log("hello");
+
 function DonutChart(data, {
   name = ([x]) => x,  // given d in data, returns the (ordinal) label
   value = ([, y]) => y, // given d in data, returns the (quantitative) value
@@ -20,6 +20,7 @@ function DonutChart(data, {
   strokeLinejoin = "round", // line join of stroke separating wedges
   padAngle = stroke === "none" ? 1 / outerRadius : 0, // angular separation between wedges
 } = {}) {
+  console.log(name);
   // Compute values.
   const N = d3.map(data, name);
   const V = d3.map(data, value);
