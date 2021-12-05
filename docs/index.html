@@ -298,13 +298,18 @@
 </nav>
 
   <h1> Tree Population and Air Quality, by Community Districts </h1>
-  <script type = "text/javascript" src="map.js"></script>
+  <script type = "text/javascript" src="../src/js/map.js"></script>
+  <script type = "text/javascript" src="../src/js/geojson.json"></script>
+  <script type = "text/javascript" src="../data/CDdata.json"></script>
 
   <script>
-  let nyc = fs.readFileSync('js/geojson.json', 'utf8'); 
-  let communityDistricts = geojson.feature();
+  const fs = require('fs');
+
+  let nyc = fs.readFileSync('data/geojson.json', 'utf8'); //issue -- us = FileAttachment("counties-albers-10m.json").json()
+  let communityDistricts = geojson.feature(nyc, nyc.objects.BoroCD); //issue -- counties = topojson.feature(us, us.objects.counties)
   let cityMap = new Map(geojson.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
-  let districtData = fs.readFileSync('data/CDdata.json', 'utf8');
+  let districtData = fs.readFileSync('data/CDdata.json', 'utf8'); //issue
+
   console.log(nyc);
   console.log(communityDistricts);
   console.log(districtData);
