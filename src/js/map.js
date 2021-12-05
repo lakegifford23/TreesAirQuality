@@ -1,9 +1,4 @@
 // https://observablehq.com/@d3/choropleth
-
-nyc = FileAttachment("geojson.json").json()
-communityDistricts = geoJSON
-cityMap = new Map(geoJSON.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
-
 function Choropleth(data, {
   id = d => d.id, // given d in data, returns the feature id
   value = () => undefined, // given d in data, returns the quantitative value

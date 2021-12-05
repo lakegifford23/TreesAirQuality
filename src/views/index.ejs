@@ -14,7 +14,31 @@
 
   <%- include ('global/header');  %>
   <%- include ('global/navbar');  %>
-  <h1> big graphic goes here </h1>
+  <h1> Tree Population and Air Quality, by Community Districts </h1>
+  <script type = "text/javascript" src="map.js"></script>
+
+  <script>
+  let nyc = fs.readFileSync('js/geojson.json', 'utf8');
+  let communityDistricts = geojson.feature(); //issue
+  let cityMap = new Map(geojson.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
+  let districtData = fs.readFileSync('data/CDdata.json', 'utf8'); //issue
+  console.log(nyc);
+  console.log(communityDistricts);
+  console.log(districtData);
+
+  chart = Choropleth(districtData, {
+  id: d => d.id,
+  value: d => d.air_quality,
+  scale: d3.scaleQuantize,
+  domain: [1, 10],
+  range: d3.schemeBlues[9],
+  title: (f, d) => '${f.properties.name}, ${statemap.get(f.id.slice(0, 2)).properties.name}\n${d?.rate}%',
+  features: communityDistricts,
+  width: 975,
+  height: 610
+});
+  </script>
+
   <%- include ('global/footer');  %>
 
 </body>

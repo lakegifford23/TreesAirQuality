@@ -7,6 +7,7 @@
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
@@ -296,7 +297,31 @@
   </div>
 </nav>
 
-  <h1> big graphic goes here </h1>
+  <h1> Tree Population and Air Quality, by Community Districts </h1>
+  <script type = "text/javascript" src="map.js"></script>
+
+  <script>
+  let nyc = fs.readFileSync('js/geojson.json', 'utf8'); 
+  let communityDistricts = geojson.feature();
+  let cityMap = new Map(geojson.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
+  let districtData = fs.readFileSync('data/CDdata.json', 'utf8');
+  console.log(nyc);
+  console.log(communityDistricts);
+  console.log(districtData);
+
+  chart = Choropleth(districtData, {
+  id: d => d.id,
+  value: d => d.air_quality,
+  scale: d3.scaleQuantize,
+  domain: [1, 10],
+  range: d3.schemeBlues[9],
+  title: (f, d) => '${f.properties.name}, ${statemap.get(f.id.slice(0, 2)).properties.name}\n${d?.rate}%',
+  features: communityDistricts,
+  width: 975,
+  height: 610
+});
+  </script>
+
   
 
 </body>
