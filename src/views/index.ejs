@@ -10,7 +10,8 @@
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v6.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
-
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 
   <!-- Create an element where the map will take place -->
@@ -54,6 +55,7 @@ d3.json("geojson.json").then( function(data) {
         .data(data.features)
         .join("path")
             .attr("fill", "#69b3a2")
+            //.attr("fill", d => color(data.get(<%=data%>)))
             .attr("d", d3.geoPath()
             .projection(projection)
             )

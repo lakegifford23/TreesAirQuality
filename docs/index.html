@@ -10,7 +10,8 @@
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v6.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
-
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 
   <!-- Create an element where the map will take place -->
@@ -316,12 +317,6 @@ const svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-// Map and projection
-//const projection = d3.geoMercator()
-  //  .scale(width / 1 / Math.PI)
-  //  .translate([width / 2, height / 2])
-
-// Load external data and boot
 d3.json("geojson.json").then( function(data) {
 
   var features = data.features;
@@ -343,6 +338,7 @@ d3.json("geojson.json").then( function(data) {
         .data(data.features)
         .join("path")
             .attr("fill", "#69b3a2")
+            //.attr("fill", d => color(data.get([object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object])))
             .attr("d", d3.geoPath()
             .projection(projection)
             )
