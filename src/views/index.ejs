@@ -49,13 +49,24 @@ d3.json("geojson.json").then( function(data) {
 
   projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
 
+  Promise.all([
+  d3.json("geojson.json"),
+  d3.csv("plethData.csv", function(d) {
+  data.set(d.code, +d.pop)
+})
+]).then(function(loadData){
+  let topo = loadData[0]
+
     // Draw the map
     svg.append("g")
         .selectAll("path")
         .data(data.features)
         .join("path")
-            .attr("fill", "#69b3a2")
-            //.attr("fill", d => color(data.get(<%=data%>)))
+            //.attr("fill", "#69b3a2")
+            .attr("fill", function (d) {
+              d.total = data.get(d.id) || 0;
+              return colorScale(d.total);
+            });
             .attr("d", d3.geoPath()
             .projection(projection)
             )
