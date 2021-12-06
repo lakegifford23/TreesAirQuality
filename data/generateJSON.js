@@ -12,6 +12,7 @@ cd.forEach(function(data) {
   districts['neigborhood_name'] = district_info[2];
   districts['air_quality'] = district_info[3];
   districts['treeCount'] = district_info[4].trim();
+  console.log(district_info[2] + ', ' + district_info[1] + ', ' + district_info[4].trim());
 
   communityDistricts.push(districts);
 });
