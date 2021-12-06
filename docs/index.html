@@ -9,6 +9,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v6.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
+
+
 
   <!-- Create an element where the map will take place -->
 </head>
@@ -300,57 +303,52 @@
   </div>
 </nav>
 
-  <svg id="my_dataviz" width="400" height="300" align="center"></svg>
-
   <h1> Tree Population and Air Quality, by Community Districts </h1>
+  <svg id="my_dataviz" width="400" height="300" align="center"></svg>
   <script type = "text/javascript" src="map.js"></script>
   <script>
 //  let communityDistricts = geojson.feature(nyc, nyc.objects.BoroCD); //issue -- counties = topojson.feature(us, us.objects.counties)
 //  let cityMap = new Map(geojson.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
+//var bbox = turf.bbox(features);
 
-
-  // The svg
-  const svg = d3.select("svg"),
+// The svg
+const svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-  // Map and projection
-  const path = d3.geoPath();
-  const projection = d3.geoMercator()
-    .scale(70)
-    .center([0,20])
-    .translate([width / 2, height / 2]);
+// Map and projection
+//const projection = d3.geoMercator()
+  //  .scale(width / 1 / Math.PI)
+  //  .translate([width / 2, height / 2])
 
-  // Data and color scale
-  let data = new Map()
-  const colorScale = d3.scaleThreshold()
-    .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
-    .range(d3.schemeBlues[7]);
+// Load external data and boot
+d3.json("geojson.json").then( function(data) {
 
-  // Load external data and boot
-  Promise.all([
-  d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-  d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) {
-      data.set(d.code, +d.pop)
+  var features = data.features;
+
+  var projection = d3.geoMercator();
+      var path = d3.geoPath().projection(projection);
+
+  var fixed = features.map(function(f) {
+    return turf.rewind(f,{reverse:true});
   })
-  ]).then(function(loadData){
-      let topo = loadData[0]
 
-      // Draw the map
+  console.log(fixed);
+
+  projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
+
+    // Draw the map
     svg.append("g")
-      .selectAll("path")
-      .data(topo.features)
-      .join("path")
-        // draw each country
-        .attr("d", d3.geoPath()
-          .projection(projection)
-        )
-        // set the color of each country
-        .attr("fill", function (d) {
-          d.total = data.get(d.id) || 0;
-          return colorScale(d.total);
-        })
-      })
+        .selectAll("path")
+        .data(data.features)
+        .join("path")
+            .attr("fill", "#69b3a2")
+            .attr("d", d3.geoPath()
+            .projection(projection)
+            )
+            .style("stroke", "#fff")
+
+})
 
 
 

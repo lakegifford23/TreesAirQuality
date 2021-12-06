@@ -8,7 +8,7 @@ let micro1 = fs.readFileSync('src/views/micro.ejs', 'utf8');
 let about_template = fs.readFileSync('src/views/about.ejs', 'utf8');
 let doughnutChart_template = fs.readFileSync('src/js/doughnutChart.js', 'utf8');
 let map_template = fs.readFileSync('src/js/map.js', 'utf8');
-
+let geojson = fs.readFileSync('src/js/geojson.json', 'utf8');
 let data = JSON.parse(district_info);
 let communityDistricts = [];
 
@@ -45,3 +45,4 @@ fs.writeFileSync('docs/index.html', index_html, 'utf8');
 fs.writeFileSync('docs/about.html', about_html, 'utf8');
 fs.writeFileSync('docs/doughnutChart.js', doughnutChart_template, 'utf8');
 fs.writeFileSync('docs/map.js', map_template, 'utf8');
+fs.writeFileSync('docs/geojson.json', geojson, 'utf8');
