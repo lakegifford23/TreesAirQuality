@@ -10,8 +10,7 @@
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v6.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
 
 
   <!-- Create an element where the map will take place -->
@@ -22,49 +21,42 @@
   <%- include ('global/header');  %>
   <%- include ('global/navbar');  %>
   <h1> Tree Population and Air Quality, by Community Districts </h1>
-  <svg id="my_dataviz" width="400" height="300" align="center"></svg>
+  <svg id="my_dataviz" width="800" height="600" align="center"></svg>
   <script type = "text/javascript" src="map.js"></script>
   <script>
-//  let communityDistricts = geojson.feature(nyc, nyc.objects.BoroCD); //issue -- counties = topojson.feature(us, us.objects.counties)
-//  let cityMap = new Map(geojson.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
-//var bbox = turf.bbox(features);
+  // The svg
 
-// The svg
-const svg = d3.select("svg"),
+  //console.log(treeData);
+  const svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-d3.json("geojson.json").then( function(data) {
 
-  var features = data.features;
+  d3.json("geojson.json").then(function(data) {
+    var features = data.features;
+    var projection = d3.geoMercator();
+    var path = d3.geoPath().projection(projection);
+    var fixed = features.map(function(f) {
+      return turf.rewind(f,{reverse:true});
+    });
 
-  var projection = d3.geoMercator();
-      var path = d3.geoPath().projection(projection);
+    projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
 
-  var fixed = features.map(function(f) {
-    return turf.rewind(f,{reverse:true});
-  })
+    //Lines 45-48 and 54 are commented out is what is not working. Basically the csv has line breaks and html is saying a ) is missing even though the csv is continuing
+    //let treeData = Object.assign(new Map(d3.csvParse(<%=treesCSV%>, ({code, tree}) => [code, +tree])), {title: "Unemployment rate (%)"});
+    //let color = d3.scaleQuantize([1, 7], d3.schemeBlues[6]);
+    //console.log(treeData);
 
-  console.log(fixed);
-
-  projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
-
-    // Draw the map
     svg.append("g")
         .selectAll("path")
         .data(data.features)
         .join("path")
-            .attr("fill", "#69b3a2")
-            //.attr("fill", d => color(data.get(<%=data%>)))
-            .attr("d", d3.geoPath()
-            .projection(projection)
-            )
+            //.attr("fill", d => color(treeData.get(d.properties.code)))
+            .attr("fill", "#000000") 
+            .attr("d", d3.geoPath().projection(projection))
             .style("stroke", "#fff")
 
-})
-
-
-
+  });
   </script>
 
   <%- include ('global/footer');  %>

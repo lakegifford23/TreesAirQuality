@@ -10,6 +10,9 @@ let doughnutChart_template = fs.readFileSync('src/js/doughnutChart.js', 'utf8');
 let map_template = fs.readFileSync('src/js/map.js', 'utf8');
 let geojson = fs.readFileSync('src/js/geojson.json', 'utf8');
 let data = JSON.parse(district_info);
+let plethData = JSON.parse(fs.readFileSync('src/js/plethData.json', 'utf8'));
+let treesCSV = fs.readFileSync('src/js/plethData.csv', 'utf8').replace(/^,|,$/g, "");
+
 let communityDistricts = [];
 
 for(let i in data){
@@ -19,9 +22,10 @@ for(let i in data){
 //console.log(fs.readFileSync('src/js/geojson.json', 'utf8'));
 let index_html = ejs.render(index_template, {
   filename: __dirname + '/views/index.ejs',
- data: JSON.parse(district_info),
- nyc: JSON.parse(fs.readFileSync('src/js/geojson.json', 'utf8')),
- districtData: JSON.parse(fs.readFileSync('data/CDdata.json', 'utf8'))
+  data: JSON.parse(district_info),
+  nyc: JSON.parse(fs.readFileSync('src/js/geojson.json', 'utf8')),
+  treesCSV: treesCSV,
+  plethData: plethData
 });
 
 let micro_html;

@@ -10,8 +10,7 @@
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v6.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
 
 
   <!-- Create an element where the map will take place -->
@@ -305,49 +304,108 @@
 </nav>
 
   <h1> Tree Population and Air Quality, by Community Districts </h1>
-  <svg id="my_dataviz" width="400" height="300" align="center"></svg>
+  <svg id="my_dataviz" width="800" height="600" align="center"></svg>
   <script type = "text/javascript" src="map.js"></script>
   <script>
-//  let communityDistricts = geojson.feature(nyc, nyc.objects.BoroCD); //issue -- counties = topojson.feature(us, us.objects.counties)
-//  let cityMap = new Map(geojson.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
-//var bbox = turf.bbox(features);
+  // The svg
 
-// The svg
-const svg = d3.select("svg"),
+  //console.log(treeData);
+  const svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-d3.json("geojson.json").then( function(data) {
 
-  var features = data.features;
+  d3.json("geojson.json").then(function(data) {
+    var features = data.features;
+    var projection = d3.geoMercator();
+    var path = d3.geoPath().projection(projection);
+    var fixed = features.map(function(f) {
+      return turf.rewind(f,{reverse:true});
+    });
 
-  var projection = d3.geoMercator();
-      var path = d3.geoPath().projection(projection);
+    projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
 
-  var fixed = features.map(function(f) {
-    return turf.rewind(f,{reverse:true});
-  })
+    //Lines 45-48 and 54 are commented out is what is not working. Basically the csv has line breaks and html is saying a ) is missing even though the csv is continuing
+    //let treeData = Object.assign(new Map(d3.csvParse(name,code,tree
+Bronx,2,137115
+Brooklyn,3,173063
+Manhattan,1,64229
+Queens,4,241414
+StatenIsland,5,103313
+FinancialDistrict,101,2362
+GreenwichVillageandSoho,102,4954
+LowerEastSideandChinatown,103,4864
+ClintonandChelsea,104,4596
+Midtown,105,2127
+StuyvesantTownandTurtleBay,106,4967
+UpperWestSide,107,8699
+UpperEastSide,108,9073
+MorningsideHeightsandHamiltonHeights,109,4909
+CentralHarlem,110,5889
+EastHarlem,111,4777
+WashingtonHeightsandInwood,112,7012
+MottHavenandMelrose,201,4714
+HuntsPointandLongwood,202,4934
+MorrisaniaandCrotona,203,4797
+HighbridgeandConcourse,204,6417
+FordhamandUniversityHeights,205,4728
+BelmontandEastTremont,206,5107
+KingsbridgeHeightsandBedford,207,5236
+RiverdaleandFieldston,208,59931
+ParkchesterandSoundview,209,9772
+ThrogsNeckandCo-opCity,210,10962
+MorrisParkandBronxdale,211,9762
+WilliamsbridgeandBaychester,212,10755
+GreenpointandWilliamsburg,301,11888
+FortGreeneandBrooklynHeights,302,8609
+BedfordStuyvesant,303,9313
+Bushwick,304,7015
+EastNewYorkandStarrettCity,305,16374
+ParkSlopeandCarrollGardens,306,10087
+SunsetPark,307,7931
+CrownHeightsandProspectHeights,308,5594
+SouthCrownHeightsandLeffertsGardens,309,5225
+BayRidgeandDykerHeights,310,10300
+Bensonhurst,311,9133
+BoroughPark,312,12173
+ConeyIsland,313,3889
+FlatbushandMidwood,314,10237
+SheepsheadBay,315,13216
+Brownsville,316,5179
+EastFlatbush,317,8182
+FlatlandsandCanarsie,318,18718
+LongIslandCityandAstoria,401,12633
+WoodsideandSunnyside,402,8463
+JacksonHeights,403,10537
+ElmhurstandCorona(CD4),404,6488
+RidgewoodandMaspeth,405,18741
+RegoParkandForestHills,406,9876
+FlushingandWhitestone,407,28644
+HillcrestandFreshMeadows,408,19880
+KewGardensandWoodhaven,409,11110
+SouthOzoneParkandHowardBeach,410,14685
+BaysideandLittleNeck,411,27252
+JamaicaandHollis,412,25499
+QueensVillage,413,35805
+RockawayandBroadChannel,414,11801
+StGeorgeandStapleton,501,25279
+SouthBeachandWillowbrook,502,25369
+TottenvilleandGreatKills,503,52665
+NewYorkCity,1,71913
+, ({code, tree}) => [code, +tree])), {title: "Unemployment rate (%)"});
+    //let color = d3.scaleQuantize([1, 7], d3.schemeBlues[6]);
+    //console.log(treeData);
 
-  console.log(fixed);
-
-  projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
-
-    // Draw the map
     svg.append("g")
         .selectAll("path")
         .data(data.features)
         .join("path")
-            .attr("fill", "#69b3a2")
-            //.attr("fill", d => color(data.get([object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object])))
-            .attr("d", d3.geoPath()
-            .projection(projection)
-            )
+            //.attr("fill", d => color(treeData.get(d.properties.code)))
+            .attr("fill", "#000000") 
+            .attr("d", d3.geoPath().projection(projection))
             .style("stroke", "#fff")
 
-})
-
-
-
+  });
   </script>
 
   
