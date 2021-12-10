@@ -50,16 +50,3 @@ fs.writeFileSync('docs/about.html', about_html, 'utf8');
 fs.writeFileSync('docs/doughnutChart.js', doughnutChart_template, 'utf8');
 fs.writeFileSync('docs/map.js', map_template, 'utf8');
 fs.writeFileSync('docs/geojson.json', geojson, 'utf8');
-
-
-let image1 = fs.readFileSync('src/images/img1.jpg', 'base64');
-var base64Data = image1.replace(/^data:image\/png;base64,/, "");
-
-//let image2 = fs.readFileSync('src/images/image2.jpg', 'utf8');
-let image3 = fs.readFileSync('src/images/image3.png', 'utf8');
-let image4 = fs.readFileSync('src/images/image4.jpg', 'utf8');
-
-fs.writeFileSync('docs/img1.jpg', base64Data, 'base64');
-//fs.writeFileSync('docs/image2.jpg', image2, 'utf8');
-//fs.writeFileSync('docs/image3.png', image3, 'utf8');
-//fs.writeFileSync('docs/image4.jpg', image4, 'utf8');

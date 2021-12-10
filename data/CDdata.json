@@ -1,35 +1,5 @@
 [
   {
-    "CDID": "2",
-    "neigborhood_name": "Bronx",
-    "air_quality": "18.42",
-    "treeCount": "137115"
-  },
-  {
-    "CDID": "3",
-    "neigborhood_name": "Brooklyn",
-    "air_quality": "18.48",
-    "treeCount": "173063"
-  },
-  {
-    "CDID": "1",
-    "neigborhood_name": "Manhattan",
-    "air_quality": "24.35",
-    "treeCount": "64229"
-  },
-  {
-    "CDID": "4",
-    "neigborhood_name": "Queens",
-    "air_quality": "17.65",
-    "treeCount": "241414"
-  },
-  {
-    "CDID": "5",
-    "neigborhood_name": "Staten Island",
-    "air_quality": "13.47",
-    "treeCount": "103313"
-  },
-  {
     "CDID": "101",
     "neigborhood_name": "Financial District ",
     "air_quality": "26.27",

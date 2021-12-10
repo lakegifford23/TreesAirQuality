@@ -76,7 +76,7 @@ var svg2 = d3.select("body") //create Svg element
 <div class="myDiv">
 <center>
   <li>Tree Count: <%= data2.treeCount %></li>
-  <li id="feedback1">compared to the rest of the city, this tree count is: </li>
+  <li id="feedback1">this community district has: </li>
   <li>city max: 59931</li>
   <li>city min: 2127</li>
 </center></ul>
@@ -135,7 +135,7 @@ p_chart.append("text")
 <div class="myDiv">
 <center>
   <li>Tree Count: <%= data2.air_quality %></li>
-  <li id="feedback2">compared to the rest of the city, this air quality is: </li>
+  <li id="feedback2">this air quality is: </li>
   <li>city average: 19.6</li>
 
 </center></ul>
@@ -145,7 +145,7 @@ p_chart.append("text")
 </body>
 <script>
 let feedback = ''
-let arrayOfFeedback = ['low', 'medium', 'high'];
+let arrayOfFeedback = ['very few trees', 'an average amount of trees', 'a very dense tree population'];
 if(<%= data2.treeCount %> >= 10537){
   feedback = arrayOfFeedback[2];
 }else if(<%= data2.treeCount %> >= 5889 && <%= data2.treeCount %> < 10537){
@@ -154,7 +154,7 @@ if(<%= data2.treeCount %> >= 10537){
   feedback = arrayOfFeedback[0];
 }
 document.getElementById("feedback1").innerHTML = document.getElementById("feedback1").innerHTML + feedback;
-
+let arrayOfFeedback2 = ['unhealthy', 'average to the rest of the city', 'cleaner than most discticts'];
 let feedback2 = '';
 if(<%= data2.air_quality %> >= 19.86){
   feedback2 = arrayOfFeedback[2];

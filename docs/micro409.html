@@ -27,7 +27,7 @@
   </center>
   <center><nav class="navbar navbar-expand-lg navbar-light bg-info">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">TreeClean</a>
+    <a class="navbar-brand" href="index.html">TreeClean</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -44,26 +44,6 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="micro3.html">Brooklyn</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="micro1.html">Manhattan</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="micro4.html">Queens</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="micro5.html">Staten Island</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="micro101.html">Financial District </a>
-              </li>
-              
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="micro102.html">Greenwich Village and Soho </a>
               </li>
@@ -359,7 +339,7 @@ var svg2 = d3.select("body") //create Svg element
 <div class="myDiv">
 <center>
   <li>Tree Count: 11110</li>
-  <li id="feedback1">compared to the rest of the city, this tree count is: </li>
+  <li id="feedback1">this community district has: </li>
   <li>city max: 59931</li>
   <li>city min: 2127</li>
 </center></ul>
@@ -418,7 +398,7 @@ p_chart.append("text")
 <div class="myDiv">
 <center>
   <li>Tree Count: 18.69</li>
-  <li id="feedback2">compared to the rest of the city, this air quality is: </li>
+  <li id="feedback2">this air quality is: </li>
   <li>city average: 19.6</li>
 
 </center></ul>
@@ -431,7 +411,7 @@ p_chart.append("text")
 </body>
 <script>
 let feedback = ''
-let arrayOfFeedback = ['low', 'medium', 'high'];
+let arrayOfFeedback = ['very few trees', 'an average amount of trees', 'a very dense tree population'];
 if(11110 >= 10537){
   feedback = arrayOfFeedback[2];
 }else if(11110 >= 5889 && 11110 < 10537){
@@ -440,7 +420,7 @@ if(11110 >= 10537){
   feedback = arrayOfFeedback[0];
 }
 document.getElementById("feedback1").innerHTML = document.getElementById("feedback1").innerHTML + feedback;
-
+let arrayOfFeedback2 = ['unhealthy', 'average to the rest of the city', 'cleaner than most discticts'];
 let feedback2 = '';
 if(18.69 >= 19.86){
   feedback2 = arrayOfFeedback[2];
