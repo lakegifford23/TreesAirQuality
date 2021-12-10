@@ -3,13 +3,12 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>TreeClean</title>
+  <title>Tree Populations vs. Air Quality, Neighborhood by Neighborhood</title>
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  <!-- Load d3.js -->
-  <script src="https://d3js.org/d3.v6.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
+  <script src='https://cdn.plot.ly/plotly-2.6.3.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
   <style>
     body {
       font-family: Georgia, serif;
@@ -22,125 +21,110 @@
   margin: 0 auto;
   text-align: left;
   font-size: 22px;
+  margin: 0px 150px 0px 150px;
+}
+h5 {
+margin: 0px 100px 0px 100px;
 }
   </style>
-
-
-  <!-- Create an element where the map will take place -->
 </head>
 
 <body style="background-color:#ADD8E6;">
 
-  <center>  <%- include ('global/header');  %> </center>
+  <center><%- include ('global/header');  %></center>
   <%- include ('global/navbar');  %>
-
   <center><h1> TreeClean: Lake Gifford and Nathalie Perra </h1></center>
   <br>
   <center><h4>This dynamically created project aims to study the possible correlation between air
     quality and tree populations in New York City. Each of the 59 community districts in NYC has been analyzed and compared to city
     averages. We learned a lot about our city while creating this project, and we hope you can take something away from our research!</center></h4>
 <br>
-<center><h3>on average, there are <%= Math.round(Number(data[59].treeCount)/59) %> trees in each NYC community district, with a maximum of 59931.</h3></center>
-<script>
-var margin2 = {top: 0, right: 20, bottom: 20, left: 0},
-     width2 = 760 - margin2.left - margin2.right,
-     height2 = 400 - margin2.top - margin2.bottom;
-var data2 = [
-  {language:  " <%= Math.round(Number(data[59].treeCount)/59) %>", value:  <%= Math.round(Number(data[59].treeCount)/59) %>},
-  {language:  "", value: 60000- <%= Math.round(Number(data[59].treeCount)/59) %>},];
-colors=["#98fb98","#A9A9A9","#00CDAC","#FFA23A","#74737A"]
-
-var svg2 = d3.select("body") //create Svg element
-  .append("center")
-   .append("svg")
-   .attr('width', width2 + margin2.right + margin2.left)
-   .attr('height', height2 + margin2.top + margin2.bottom)
-  // .style("border", "solid 1px red")
-  .attr("transform","translate(200,0)");
- var chart=svg2.append('g')
-    .attr('transform', 'translate(' + margin2.left + ',' + margin2.top + ')')
-    .attr('width', width2)
-    .attr('height', height2)
- var pie=d3.pie()
-         .value(d => d.value)
- var color_scale2=d3.scaleOrdinal()
-               .domain(data2.map(d=>d.language))
-               .range(colors)
- let arc2=d3.arc()
-        .outerRadius(150)
-        .innerRadius(100)
- var p_chart2=chart.selectAll("pie")
-      .data(pie(data2))
-      .enter()
-      .append("g")
-      .attr('transform', 'translate(170,230)')
- p_chart2.append("path")
-      .attr("d",arc2)
-      .attr("fill",d=>{
-        return color_scale2(d.data.language);
-      })
- p_chart2.append("text")
-       .text(function(d){ return d.data.language})
-       .attr("transform", function(d) { return "translate(" + arc2.centroid(d) + ")";  })
-       .style("text-anchor", "middle")
-       //const svg = d3.create('svg').attr('viewBox', [0, 0, width, 200]);
-</script>
-<center><h3>The average concentration of nitrogen dioxide in NYC is 19.6 parts per million.</center></h3>
-<div class="myDiv">
-<center>
-  <LH>Takeaways</LH>
-  <li>While many community districts are similar sizes, the number of trees varies widely!</li>
-  <li>Air quality also fluctuates signifigantly from district to district</li>
-  <li>There is definitely a loose correlation between nitrogen dioxide presense and tree population</li>
-  <li>However, there are plenty of other factors that affect air quality! What is presented here is
-  only a part of a much greater picture</li>
-
-
-</center></ul>
-</div>
-<center><svg id="my_dataviz" width="800" height="1" align="center"></svg></center>
-
+<center><h5>The radius of these circles corresponds to each borough's tree population, while the gradient of each sphere is representative of the parts per billion of nitrogen dioxide in each borough's atmosphere.</h5></center>
+<br>
+  <center><div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div></center>
+  <script type = "text/javascript" src="map.js"></script>
   <script>
-  // The svg
+d3.csv('https://raw.githubusercontent.com/nathalieperra22/choroplethcsv/main/coordnycboroughs.csv', function(err, rows){
 
-  //console.log(treeData);
-  const svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+  function unpack(rows, key) {
+    return rows.map(function(row) { return row[key]; });
+  }
+
+  var borough = unpack(rows, 'Borough'),
+      treePop = unpack(rows, 'TreePop'),
+      lat = unpack(rows, 'Lat'),
+      lon = unpack(rows, 'Lon'),
+      airQuality = unpack(rows, 'AirQuality'),
+      boroughSize = []
+
+  for ( var i = 0 ; i < treePop.length; i++) {
+    var currentSize = treePop[i] / 1255;
+    boroughSize.push(currentSize);
+  }
+
+  var layout = {
+      mapbox: {
+        center: {lon: -73.9, lat: 40.73},
+        style: "carto-positron",
+        zoom: 9,
+      },
+      coloraxis: {colorscale: "Greens"},
+      width: 1000,
+      height: 500,
+      margin: {t: 30, b: 0},
+  };
+
+  console.log("lat", lat)
+  console.log('lon', lon)
+  console.log('size', boroughSize)
+
+  var data = [{
+    type: "scattermapbox", //"densitymapbox",
+    lon: lon,
+    lat: lat,
+    marker: { size: boroughSize,
+              color: airQuality,
+              colorbar: {
+               thickness: 10,
+               titleside: 'right',
+               outlinecolor: 'rgba(68,68,68,0)',
+               ticklen: 4,
+               shoticksuffix: 'last',
+               ticksuffix: 'ppb',
+               dtick: 4
+              }
+            }
+  }]
+
+  console.log('data', data)
+  console.log('layout', layout)
 
 
-  d3.json("geojson.json").then(function(data) {
-    var features = data.features;
-    var projection = d3.geoMercator();
-    var path = d3.geoPath().projection(projection);
-    var fixed = features.map(function(f) {
-      return turf.rewind(f,{reverse:true});
-    });
+  Plotly.newPlot("myDiv", data, layout);
+});
 
-    projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
-
-    // Draw the map
-    svg.append("g")
-        .selectAll("path")
-        .data(data.features)
-        .join("path")
-            .attr("fill", "#4b9fb5")
-          //  .attr("fill", function (d) {
-          //  d.total = data.get(d.id) || 0;
-          //    return colorScale(d.total);
-          //  });
-            .attr("d", d3.geoPath()
-            .projection(projection)
-            )
-            .style("stroke", "#fff")
-
-  });
 
   </script>
+  <br>
+  <center><h3>The average concentration of nitrogen dioxide in NYC is 19.6 parts per million.</center></h3>
+  <center><h3>There are 935,115 trees in New York City!</h3></center>
+
+<br>
+  <div class="myDiv">
+  <center>
+    <LH>Takeaways:</LH>
+    <li>While many community districts are similar sizes, the number of trees varies widely!</li>
+    <li>Air quality also fluctuates signifigantly from district to district.</li>
+    <li>There is definitely a loose correlation between nitrogen dioxide presense and tree population.</li>
+    <li>However, there are plenty of other factors that affect air quality! What is presented here is
+    only a part of a much greater picture.</li>
+<br><br>
+
+  </center></ul>
+  </div>
+
+
   <%- include ('global/footer');  %>
-
-
-
 
 </body>
 
