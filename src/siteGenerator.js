@@ -10,6 +10,9 @@ let doughnutChart_template = fs.readFileSync('src/js/doughnutChart.js', 'utf8');
 let map_template = fs.readFileSync('src/js/map.js', 'utf8');
 let geojson = fs.readFileSync('src/js/geojson.json', 'utf8');
 let data = JSON.parse(district_info);
+let plethData = JSON.parse(fs.readFileSync('src/js/plethData.json', 'utf8'));
+let treesCSV = fs.readFileSync('src/js/plethData.csv', 'utf8').replace(/^,|,$/g, "");
+//let css = fs.readFileSync('src/bootswatch.css', 'utf8');
 let communityDistricts = [];
 
 for(let i in data){
@@ -19,9 +22,10 @@ for(let i in data){
 //console.log(fs.readFileSync('src/js/geojson.json', 'utf8'));
 let index_html = ejs.render(index_template, {
   filename: __dirname + '/views/index.ejs',
- data: JSON.parse(district_info),
- nyc: JSON.parse(fs.readFileSync('src/js/geojson.json', 'utf8')),
- districtData: JSON.parse(fs.readFileSync('data/CDdata.json', 'utf8'))
+  data: JSON.parse(district_info),
+  nyc: JSON.parse(fs.readFileSync('src/js/geojson.json', 'utf8')),
+  treesCSV: treesCSV,
+  plethData: plethData
 });
 
 let micro_html;
@@ -40,9 +44,22 @@ let about_html = ejs.render(about_template, {
  data: JSON.parse(district_info)
 });
 
-
+//fs.writeFileSync('docs/bootswatch.css', css, 'utf8');
 fs.writeFileSync('docs/index.html', index_html, 'utf8');
 fs.writeFileSync('docs/about.html', about_html, 'utf8');
 fs.writeFileSync('docs/doughnutChart.js', doughnutChart_template, 'utf8');
 fs.writeFileSync('docs/map.js', map_template, 'utf8');
 fs.writeFileSync('docs/geojson.json', geojson, 'utf8');
+
+
+let image1 = fs.readFileSync('src/images/img1.jpg', 'base64');
+var base64Data = image1.replace(/^data:image\/png;base64,/, "");
+
+//let image2 = fs.readFileSync('src/images/image2.jpg', 'utf8');
+let image3 = fs.readFileSync('src/images/image3.png', 'utf8');
+let image4 = fs.readFileSync('src/images/image4.jpg', 'utf8');
+
+fs.writeFileSync('docs/img1.jpg', base64Data, 'base64');
+//fs.writeFileSync('docs/image2.jpg', image2, 'utf8');
+//fs.writeFileSync('docs/image3.png', image3, 'utf8');
+//fs.writeFileSync('docs/image4.jpg', image4, 'utf8');

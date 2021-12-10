@@ -8,14 +8,26 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: Georgia, serif;
+    }
+    .myDiv {
+    display: table;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 22px;
+}
+
+  </style>
 </head>
 
-<body>
-  <header>brought to you by adv cs</header>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<body style="background-color:#ADD8E6;">
+  <center> <header>NYC Trees and Air Quality: What's the Correlation?</header>
+  </center>
+  <center><nav class="navbar navbar-expand-lg navbar-light bg-info">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">NYC Treecount</a>
+    <a class="navbar-brand" href="#">TreeClean</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -294,38 +306,85 @@
       </ul>
     </div>
   </div>
-</nav>
+</nav></center>
 
-  <table>
-  <tr>
-    <th>Community District</th>
-    <th>Neighborhood</th>
-    <th>Air Quality</th>
-    <th>Tree Count</th>
-  </tr>
-  <tr>
-    <td>109</td>
-    <td>Morningside Heights and Hamilton Heights </td>
-    <td>22</td>
-    <td>4909</td>
-  </tr>
-</table>
-<script type = "text/javascript" src="doughnutChart.js"></script>
+<center><h2>Community District 109: Morningside Heights and Hamilton Heights </h2></center>
+<br>
+<center><h3>Tree Count (# of trees)</h3></center>
 
 <script>
-var margin = {top: 20, right: 20, bottom: 60, left: 80},
-     width = 500 - margin.left - margin.right,
-     height = 500 - margin.top - margin.bottom;
+var margin2 = {top: 0, right: 20, bottom: 20, left: 0},
+     width = 760 - margin2.left - margin2.right,
+     height = 400 - margin2.top - margin2.bottom;
+var data2 = [
+  {language:  "4909", value: Number(4909)},
+  {language:  "", value: 60000-Number(4909)},];
+colors=["#98fb98","#A9A9A9","#00CDAC","#FFA23A","#74737A"]
+
+var svg2 = d3.select("body") //create Svg element
+  .append("center")
+   .append("svg")
+   .attr('width', width + margin2.right + margin2.left)
+   .attr('height', height + margin2.top + margin2.bottom)
+  // .style("border", "solid 1px red")
+  .attr("transform","translate(200,0)");
+ var chart=svg2.append('g')
+    .attr('transform', 'translate(' + margin2.left + ',' + margin2.top + ')')
+    .attr('width', width)
+    .attr('height', height)
+ var pie=d3.pie()
+         .value(d => d.value)
+ var color_scale2=d3.scaleOrdinal()
+               .domain(data2.map(d=>d.language))
+               .range(colors)
+ let arc2=d3.arc()
+        .outerRadius(150)
+        .innerRadius(100)
+ var p_chart2=chart.selectAll("pie")
+      .data(pie(data2))
+      .enter()
+      .append("g")
+      .attr('transform', 'translate(170,230)')
+ p_chart2.append("path")
+      .attr("d",arc2)
+      .attr("fill",d=>{
+        return color_scale2(d.data.language);
+      })
+ p_chart2.append("text")
+       .text(function(d){ return d.data.language})
+       .attr("transform", function(d) { return "translate(" + arc2.centroid(d) + ")";  })
+       .style("text-anchor", "middle")
+       //const svg = d3.create('svg').attr('viewBox', [0, 0, width, 200]);
+</script>
+<div class="myDiv">
+<center>
+  <li>Tree Count: 4909</li>
+  <li id="feedback1">compared to the rest of the city, this tree count is: </li>
+  <li>city max: 59931</li>
+  <li>city min: 2127</li>
+</center></ul>
+</div>
+<br>
+<br>
+<center><h3> Nitrogen Dioxide Concentration (ppm)</h3></center>
+<script>
+
+
+var margin = {top: 0, right: 20, bottom: 20, left: 0},
+     width = 760 - margin.left - margin.right,
+     height = 400 - margin.top - margin.bottom;
 var data = [
   {language:  "22", value: Number(22)},
-  {language:  "", value: 50-Number(22)},];
-colors=["#228B22","#A9A9A9","#00CDAC","#FFA23A","#74737A"]
+  {language:  "", value: 28-Number(22)},];
+colors=["#6082B6","#A9A9A9","#00CDAC","#FFA23A","#74737A"]
 var svg = d3.select("body") //create Svg element
+  .append("center")
    .append("svg")
    .attr('width', width + margin.right + margin.left)
    .attr('height', height + margin.top + margin.bottom)
-   .style("border", "solid 1px red")
-    .attr("transform","translate(200,0)");
+  // .style("border", "solid 1px red")
+  .attr("transform","translate(200,0)");
+
 var chart=svg.append('g')
    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
    .attr('width', width)
@@ -353,9 +412,45 @@ p_chart.append("text")
       .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")";  })
       .style("text-anchor", "middle")
       //const svg = d3.create('svg').attr('viewBox', [0, 0, width, 200]);
+
 </script>
 
-  
-</body>
+<div class="myDiv">
+<center>
+  <li>Tree Count: 22</li>
+  <li id="feedback2">compared to the rest of the city, this air quality is: </li>
+  <li>city average: 19.6</li>
 
+</center></ul>
+</div>
+
+  <center>exploring the correlation between air quality and the tree populations in New York City.</center>
+<center> advanced CS topics at trinity school NYC. fall 2021.</center>
+<center><a href="https://docs.google.com/spreadsheets/d/1F5_b6HC-tVvfZsiF19bv4lR3zvpfiSovdgD0OAcx4n8/edit?usp=sharing">link to data</a></center>
+
+</body>
+<script>
+let feedback = ''
+let arrayOfFeedback = ['low', 'medium', 'high'];
+if(4909 >= 10537){
+  feedback = arrayOfFeedback[2];
+}else if(4909 >= 5889 && 4909 < 10537){
+  feedback = arrayOfFeedback[1];
+}else{
+  feedback = arrayOfFeedback[0];
+}
+document.getElementById("feedback1").innerHTML = document.getElementById("feedback1").innerHTML + feedback;
+
+let feedback2 = '';
+if(22 >= 19.86){
+  feedback2 = arrayOfFeedback[2];
+}else if(22 >= 17.83 && 22 < 19.86){
+  feedback2 = arrayOfFeedback[1];
+}else{
+  feedback2 = arrayOfFeedback[0];
+}
+document.getElementById("feedback2").innerHTML = document.getElementById("feedback2").innerHTML + feedback2;
+
+
+</script>
 </html>

@@ -3,78 +3,71 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Tree Populations vs. Air Quality, Neighborhood by Neighborhood</title>
+  <title>TreeClean</title>
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v6.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <style>
+    body {
+      font-family: Georgia, serif;
+    }
+  </style>
 
 
   <!-- Create an element where the map will take place -->
 </head>
 
-<body>
+<body style="background-color:#ADD8E6;">
 
-  <%- include ('global/header');  %>
+  <center>  <%- include ('global/header');  %> </center>
   <%- include ('global/navbar');  %>
-  <h1> Tree Population and Air Quality, by Community Districts </h1>
-  <svg id="my_dataviz" width="400" height="300" align="center"></svg>
+
+  <center><h1> TreeClean: Lake Gifford and Nathalie Perra </h1></center>
+  <center><svg id="my_dataviz" width="800" height="600" align="center"></svg></center>
   <script type = "text/javascript" src="map.js"></script>
   <script>
-//  let communityDistricts = geojson.feature(nyc, nyc.objects.BoroCD); //issue -- counties = topojson.feature(us, us.objects.counties)
-//  let cityMap = new Map(geojson.feature(nyc, nyc.objects.BoroCD).features.map(d => [d.id, d]));
-//var bbox = turf.bbox(features);
+  // The svg
 
-// The svg
-const svg = d3.select("svg"),
+  //console.log(treeData);
+  const svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-d3.json("geojson.json").then( function(data) {
 
-  var features = data.features;
+  d3.json("geojson.json").then(function(data) {
+    var features = data.features;
+    var projection = d3.geoMercator();
+    var path = d3.geoPath().projection(projection);
+    var fixed = features.map(function(f) {
+      return turf.rewind(f,{reverse:true});
+    });
 
-  var projection = d3.geoMercator();
-      var path = d3.geoPath().projection(projection);
+    projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
 
-  var fixed = features.map(function(f) {
-    return turf.rewind(f,{reverse:true});
-  })
+    //Lines 45-48 and 54 are commented out is what is not working. Basically the csv has line breaks and html is saying a ) is missing even though the csv is continuing
+    //let color = d3.scaleQuantize([1, 7], d3.schemeBlues[6]);
+    //console.log(treeData);
 
-  console.log(fixed);
-
-  projection.fitSize([width,height],{"type": "FeatureCollection","features":fixed})
-
-  Promise.all([
-  d3.json("geojson.json"),
-  d3.csv("plethData.csv", function(d) {
-  data.set(d.code, +d.pop)
-})
-]).then(function(loadData){
-  let topo = loadData[0]
 
     // Draw the map
     svg.append("g")
         .selectAll("path")
         .data(data.features)
         .join("path")
-            //.attr("fill", "#69b3a2")
-            .attr("fill", function (d) {
-              d.total = data.get(d.id) || 0;
-              return colorScale(d.total);
-            });
+            .attr("fill", "#4b9fb5")
+          //  .attr("fill", function (d) {
+          //  d.total = data.get(d.id) || 0;
+          //    return colorScale(d.total);
+          //  });
             .attr("d", d3.geoPath()
             .projection(projection)
             )
             .style("stroke", "#fff")
 
-})
-
-
+  });
 
   </script>
 

@@ -8,41 +8,100 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: Georgia, serif;
+    }
+    .myDiv {
+    display: table;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 22px;
+}
+
+  </style>
 </head>
 
-<body>
-  <%- include ('global/header');  %>
+<body style="background-color:#ADD8E6;">
+  <center> <%- include ('global/header');  %>  </center>
   <%- include ('global/navbar');  %>
-  <table>
-  <tr>
-    <th>Community District</th>
-    <th>Neighborhood</th>
-    <th>Air Quality</th>
-    <th>Tree Count</th>
-  </tr>
-  <tr>
-    <td><%= data2.CDID %></td>
-    <td><%= data2.neigborhood_name %></td>
-    <td><%= data2.air_quality %></td>
-    <td><%= data2.treeCount %></td>
-  </tr>
-</table>
-<script type = "text/javascript" src="doughnutChart.js"></script>
+<center><h2>Community District <%= data2.CDID %>: <%= data2.neigborhood_name %></h2></center>
+<br>
+<center><h3>Tree Count (# of trees)</h3></center>
 
 <script>
-var margin = {top: 20, right: 20, bottom: 60, left: 80},
-     width = 500 - margin.left - margin.right,
-     height = 500 - margin.top - margin.bottom;
+var margin2 = {top: 0, right: 20, bottom: 20, left: 0},
+     width = 760 - margin2.left - margin2.right,
+     height = 400 - margin2.top - margin2.bottom;
+var data2 = [
+  {language:  "<%= data2.treeCount %>", value: Number(<%= data2.treeCount %>)},
+  {language:  "", value: 60000-Number(<%= data2.treeCount %>)},];
+colors=["#98fb98","#A9A9A9","#00CDAC","#FFA23A","#74737A"]
+
+var svg2 = d3.select("body") //create Svg element
+  .append("center")
+   .append("svg")
+   .attr('width', width + margin2.right + margin2.left)
+   .attr('height', height + margin2.top + margin2.bottom)
+  // .style("border", "solid 1px red")
+  .attr("transform","translate(200,0)");
+ var chart=svg2.append('g')
+    .attr('transform', 'translate(' + margin2.left + ',' + margin2.top + ')')
+    .attr('width', width)
+    .attr('height', height)
+ var pie=d3.pie()
+         .value(d => d.value)
+ var color_scale2=d3.scaleOrdinal()
+               .domain(data2.map(d=>d.language))
+               .range(colors)
+ let arc2=d3.arc()
+        .outerRadius(150)
+        .innerRadius(100)
+ var p_chart2=chart.selectAll("pie")
+      .data(pie(data2))
+      .enter()
+      .append("g")
+      .attr('transform', 'translate(170,230)')
+ p_chart2.append("path")
+      .attr("d",arc2)
+      .attr("fill",d=>{
+        return color_scale2(d.data.language);
+      })
+ p_chart2.append("text")
+       .text(function(d){ return d.data.language})
+       .attr("transform", function(d) { return "translate(" + arc2.centroid(d) + ")";  })
+       .style("text-anchor", "middle")
+       //const svg = d3.create('svg').attr('viewBox', [0, 0, width, 200]);
+</script>
+<div class="myDiv">
+<center>
+  <li>Tree Count: <%= data2.treeCount %></li>
+  <li id="feedback1">compared to the rest of the city, this tree count is: </li>
+  <li>city max: 59931</li>
+  <li>city min: 2127</li>
+</center></ul>
+</div>
+<br>
+<br>
+<center><h3> Nitrogen Dioxide Concentration (ppm)</h3></center>
+<script>
+
+
+var margin = {top: 0, right: 20, bottom: 20, left: 0},
+     width = 760 - margin.left - margin.right,
+     height = 400 - margin.top - margin.bottom;
 var data = [
   {language:  "<%= data2.air_quality %>", value: Number(<%= data2.air_quality %>)},
-  {language:  "", value: 50-Number(<%= data2.air_quality %>)},];
-colors=["#228B22","#A9A9A9","#00CDAC","#FFA23A","#74737A"]
+  {language:  "", value: 28-Number(<%= data2.air_quality %>)},];
+colors=["#6082B6","#A9A9A9","#00CDAC","#FFA23A","#74737A"]
 var svg = d3.select("body") //create Svg element
+  .append("center")
    .append("svg")
    .attr('width', width + margin.right + margin.left)
    .attr('height', height + margin.top + margin.bottom)
-   .style("border", "solid 1px red")
-    .attr("transform","translate(200,0)");
+  // .style("border", "solid 1px red")
+  .attr("transform","translate(200,0)");
+
 var chart=svg.append('g')
    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
    .attr('width', width)
@@ -70,9 +129,42 @@ p_chart.append("text")
       .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")";  })
       .style("text-anchor", "middle")
       //const svg = d3.create('svg').attr('viewBox', [0, 0, width, 200]);
+
 </script>
+
+<div class="myDiv">
+<center>
+  <li>Tree Count: <%= data2.air_quality %></li>
+  <li id="feedback2">compared to the rest of the city, this air quality is: </li>
+  <li>city average: 19.6</li>
+
+</center></ul>
+</div>
 
   <%- include ('global/footer');  %>
 </body>
+<script>
+let feedback = ''
+let arrayOfFeedback = ['low', 'medium', 'high'];
+if(<%= data2.treeCount %> >= 10537){
+  feedback = arrayOfFeedback[2];
+}else if(<%= data2.treeCount %> >= 5889 && <%= data2.treeCount %> < 10537){
+  feedback = arrayOfFeedback[1];
+}else{
+  feedback = arrayOfFeedback[0];
+}
+document.getElementById("feedback1").innerHTML = document.getElementById("feedback1").innerHTML + feedback;
 
+let feedback2 = '';
+if(<%= data2.air_quality %> >= 19.86){
+  feedback2 = arrayOfFeedback[2];
+}else if(<%= data2.air_quality %> >= 17.83 && <%= data2.air_quality %> < 19.86){
+  feedback2 = arrayOfFeedback[1];
+}else{
+  feedback2 = arrayOfFeedback[0];
+}
+document.getElementById("feedback2").innerHTML = document.getElementById("feedback2").innerHTML + feedback2;
+
+
+</script>
 </html>
