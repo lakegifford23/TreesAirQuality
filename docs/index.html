@@ -331,7 +331,7 @@ d3.csv('https://raw.githubusercontent.com/nathalieperra22/choroplethcsv/main/coo
         style: "carto-positron",
         zoom: 9,
       },
-      coloraxis: {colorscale: "Greens"},
+      coloraxis: {colorscale: "Reds"},
       width: 1000,
       height: 500,
       margin: {t: 30, b: 0},
@@ -342,7 +342,7 @@ d3.csv('https://raw.githubusercontent.com/nathalieperra22/choroplethcsv/main/coo
   console.log('size', boroughSize)
 
   var data = [{
-    type: "scattermapbox", //"densitymapbox",
+    type: "scattermapbox", //"densitymapbox", scattermapbox
     lon: lon,
     lat: lat,
     marker: { size: boroughSize,
